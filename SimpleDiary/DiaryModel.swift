@@ -40,6 +40,21 @@ enum DiaryStateItem: Int, CaseIterable, Codable {
     case soso     = 3
     case bad      = 2
     case verybad  = 1
+    
+    var displayStateImoji: String {
+        switch self {
+        case .verygood:
+            return "😆"
+        case .good:
+            return "☺️"
+        case .soso:
+            return "🙂"
+        case .bad:
+            return "😠"
+        case .verybad:
+            return "🤬"
+        }
+    }
 }
 
 struct DiaryModel:Codable {

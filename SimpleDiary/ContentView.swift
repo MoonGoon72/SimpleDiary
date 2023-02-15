@@ -66,9 +66,15 @@ struct DiaryListRow: View {
     var body: some View {
         NavigationLink(destination: DiaryDetailView(diary: diary)) {
             HStack {
-                Text("😀")
-                    .font(.system(size: 45))
-                    .cornerRadius(0.3)
+                if let state = diary.state {
+                    Text(state.displayStateImoji)
+                        .font(.system(size: 45))
+                        .cornerRadius(0.3)
+                } else {
+                    Text("😶")
+                        .font(.system(size: 45))
+                        .cornerRadius(0.3)
+                }
                 
                 VStack(alignment: .leading) {
                     Text(diary.keyDateString())
