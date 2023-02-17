@@ -72,7 +72,7 @@ struct DiaryInputModal: View {
         }
     }
     func getStateList() -> Array<String> {
-        return Array(repeating: "heart.square", count: state)
+        return Array(repeating: "star.fill", count: state)
     }
     
     var StateStar: some View {

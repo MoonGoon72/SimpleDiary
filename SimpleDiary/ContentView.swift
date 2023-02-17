@@ -48,12 +48,15 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.gray.ignoresSafeArea().opacity(0.2)
-                
+                Color.gray.ignoresSafeArea()
+                    .opacity(0.2)
                 VStack {
-                    TopArea()
+                    CalendarView().environmentObject(DateHolder())
+                        .padding()
                     
                     ContentsArea()
+                    TopArea()
+                    
                 }
                 .padding()
             }

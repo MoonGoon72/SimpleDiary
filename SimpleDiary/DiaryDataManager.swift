@@ -1,12 +1,41 @@
 import Foundation
 
+extension Date {
+    func dateString(_ date:Date? = nil) -> String {
+        var targetDate:Date = self
+        if let date = date {
+            targetDate = date
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = .current
+        
+        return dateFormatter.string(from: targetDate)
+    }
+}
+
 class DiaryDataManager:ObservableObject {
     static let DIARY_DATA_LIST_KEY = "DIARY_DATA_LIST_KEY"
     
     static let shared = DiaryDataManager()
     
     @Published var dataList:[DiaryModel] = []
-    
+    @Published var keyDate = ""
+    var today: String = Date().dateString()
+    var strKeyDate: String {
+        get {
+            keyDate
+        }
+        set(newKeyDate) {
+            if keyDate == newKeyDate {
+                keyDate = ""
+                return
+            }
+            
+            keyDate = newKeyDate
+        }
+    }
     init() {
         if let data = UserDefaults.standard.value(forKey: DiaryDataManager.DIARY_DATA_LIST_KEY) as? Data {
             let accountList = try? PropertyListDecoder().decode([DiaryModel].self, from: data)
@@ -28,7 +57,17 @@ class DiaryDataManager:ObservableObject {
             return getDummyData()
         }
         
-        let returnList:[DiaryModel] = dataList
+        var returnList:[DiaryModel] = dataList
+        
+        if keyDate != "" {
+            returnList = []
+            for diaryModelItem in dataList {
+                if diaryModelItem.keyDateString() == keyDate {
+                    returnList.append(diaryModelItem)
+                }
+            }
+        }
+        
         return returnList
     }
     
